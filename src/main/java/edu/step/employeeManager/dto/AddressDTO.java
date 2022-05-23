@@ -1,6 +1,5 @@
 package edu.step.employeeManager.dto;
 
-import javax.persistence.Column;
 
 public class AddressDTO {
     private Integer id;

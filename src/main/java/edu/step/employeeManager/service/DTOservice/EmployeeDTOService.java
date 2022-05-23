@@ -2,6 +2,7 @@ package edu.step.employeeManager.service.DTOservice;
 
 import edu.step.employeeManager.dto.AddressDTO;
 import edu.step.employeeManager.dto.EmployeeDTO;
+import edu.step.employeeManager.exceptions.CriteriaNotMatchingException;
 import edu.step.employeeManager.exceptions.EntityNotFoundException;
 import edu.step.employeeManager.model.Address;
 import edu.step.employeeManager.model.Employee;
@@ -48,36 +49,36 @@ public class EmployeeDTOService {
                 .collect(Collectors.toList());
     }
 
-    public void create(EmployeeDTO employeeDTO) {
+    public void create(EmployeeDTO employeeDTO) throws EntityNotFoundException, CriteriaNotMatchingException {
 
-            Employee employee = new Employee();
+                Employee employee = new Employee();
 
-            employee.setFirstName(employeeDTO.getFirstName());
-            employee.setLastName(employeeDTO.getLastName());
-            employee.setBirthdate(employeeDTO.getBirthdate());
-            employee.setIdnp(employeeDTO.getIdnp());
-            employee.setPhoneNumber(employeeDTO.getPhoneNumber());
-            employee.setEmail(employeeDTO.getEmail());
-            employee.setSalary(employeeDTO.getSalary());
-            employee.setHireDate(employeeDTO.getHireDate());
-            employee.setDepartment(departmentDao.findById(employeeDTO.getDepartment()));
-            employee.setProfession(professionDao.findById(employeeDTO.getProfession()));
-            employee.setCompany(companyDao.findById(employeeDTO.getCompany()));
+                employee.setFirstName(employeeDTO.getFirstName());
+                employee.setLastName(employeeDTO.getLastName());
+                employee.setBirthdate(employeeDTO.getBirthdate());
+                employee.setIdnp(employeeDTO.getIdnp());
+                employee.setPhoneNumber(employeeDTO.getPhoneNumber());
+                employee.setEmail(employeeDTO.getEmail());
+                employee.setSalary(employeeDTO.getSalary());
+                employee.setHireDate(employeeDTO.getHireDate());
+                employee.setDepartment(departmentDao.findById(employeeDTO.getDepartment()));
+                employee.setProfession(professionDao.findById(employeeDTO.getProfession()));
+                employee.setCompany(companyDao.findById(employeeDTO.getCompany()));
 
-            Address address = new Address();
-            address.setCity(employeeDTO.getAddress().getCity());
-            address.setStreetName(employeeDTO.getAddress().getStreetName());
-            address.setStreetNumber(employeeDTO.getAddress().getStreetNumber());
-            address.setApartmentNumber(employeeDTO.getAddress().getApartmentNumber());
-            address.setHouseNumber(employeeDTO.getAddress().getHouseNumber());
+                Address address = new Address();
+                address.setCity(employeeDTO.getAddress().getCity());
+                address.setStreetName(employeeDTO.getAddress().getStreetName());
+                address.setStreetNumber(employeeDTO.getAddress().getStreetNumber());
+                address.setApartmentNumber(employeeDTO.getAddress().getApartmentNumber());
+                address.setHouseNumber(employeeDTO.getAddress().getHouseNumber());
 
-            employee.setAddress(address);
+                employee.setAddress(address);
 
-            employeeDao.create(employee);
+                employeeDao.create(employee);
 
     }
 
-    public void update(EmployeeDTO employeeDTO) throws EntityNotFoundException {
+    public void update(EmployeeDTO employeeDTO) throws EntityNotFoundException, CriteriaNotMatchingException {
         Employee editedEmployee = new Employee();
 
         editedEmployee.setFirstName(employeeDTO.getFirstName());
@@ -105,9 +106,7 @@ public class EmployeeDTOService {
         employeeDao.update(editedEmployee);
     }
 
-
-
-    public boolean delete(Integer id){
+    public boolean delete(Integer id) throws EntityNotFoundException {
         Optional<Employee> foundEmployee = Optional.ofNullable(employeeDao.findById(id));
         if(foundEmployee.isPresent()) {
             employeeDao.delete(foundEmployee.get().getId());

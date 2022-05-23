@@ -10,13 +10,11 @@ public class DepartmentDTO {
     private Integer id;
     private String departmentName;
     private Integer employeesNumber;
-
     private Set<Integer> employees;
 
     public DepartmentDTO() {
 
     }
-
 
     public DepartmentDTO(Integer id, String departmentName, Integer employeesNumber, Set<Integer> employees) {
         this.id = id;

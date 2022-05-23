@@ -5,7 +5,6 @@ import java.util.Set;
 
 @Entity
 public class Profession {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -30,5 +29,13 @@ public class Profession {
 
     public void setProfessionName(String professionName) {
         this.professionName = professionName;
+    }
+
+    public Set<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Set<Employee> employees) {
+        this.employees = employees;
     }
 }

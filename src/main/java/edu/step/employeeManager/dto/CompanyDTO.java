@@ -10,9 +10,7 @@ public class CompanyDTO {
 
     private Integer id;
     private String name;
-
     private LocalDate foundationYear;
-
     private Integer employeesNumber;
     private Set<Integer> employees;
 

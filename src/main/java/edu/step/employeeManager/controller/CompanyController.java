@@ -17,31 +17,25 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/companies")
 public class CompanyController {
-
     @Autowired
     private CompanyDTOService dtoService;
-
-
     @GetMapping
     public List<CompanyDTO> getAll(){
         return dtoService.getAll();
     }
-
     @PostMapping("/create")
-    public void create(@RequestBody CompanyDTO company){
-        dtoService.create(company);
+    public void create(@RequestBody CompanyDTO companyDTO){
+        dtoService.create(companyDTO);
     }
-
     @PutMapping("/update")
-    public ResponseEntity<String> update(@RequestBody CompanyDTO company) {
+    public ResponseEntity<String> update(@RequestBody CompanyDTO companyDTO) {
         try{
-            dtoService.update(company);
+            dtoService.update(companyDTO);
             return ResponseEntity.ok().build();
         } catch (EntityNotFoundException ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
     }
-
     @DeleteMapping("/delete/{id}")
     public ResponseEntity delete(@PathVariable("id") Integer id) {
         boolean result = dtoService.delete(id);

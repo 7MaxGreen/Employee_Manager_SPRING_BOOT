@@ -9,28 +9,17 @@ public class EmployeeDTO {
     private Integer id;
     private String firstName;
     private String lastName;
-
     private String idnp;
-
     private String phoneNumber;
-
     private String email;
-
     private Double salary;
-
     private LocalDate birthdate;
-
     private LocalDate hireDate;
-
     private LocalDate dismissDate;
-
     private Integer department;
-
 //    private Gender gender;
     private Integer company;
-
     private AddressDTO address;
-
     private Integer profession;
 
     public EmployeeDTO() {
@@ -61,8 +50,6 @@ public class EmployeeDTO {
     public String getFirstName() {
         return firstName;
     }
-
-
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;

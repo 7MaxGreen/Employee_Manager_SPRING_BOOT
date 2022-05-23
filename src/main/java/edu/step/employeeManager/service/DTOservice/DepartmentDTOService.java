@@ -1,6 +1,7 @@
 package edu.step.employeeManager.service.DTOservice;
 
 import edu.step.employeeManager.dto.DepartmentDTO;
+import edu.step.employeeManager.exceptions.CriteriaNotMatchingException;
 import edu.step.employeeManager.exceptions.EntityNotFoundException;
 import edu.step.employeeManager.model.Department;
 import edu.step.employeeManager.service.DAO.DepartmentDao;
@@ -27,7 +28,7 @@ public class DepartmentDTOService {
                 .collect(Collectors.toList());
     }
 
-    public void update(DepartmentDTO departmentDTO) throws EntityNotFoundException {
+    public void update(DepartmentDTO departmentDTO) throws EntityNotFoundException, CriteriaNotMatchingException {
         Department editedDepartment = new Department();
 
         editedDepartment.setDepartmentName(departmentDTO.getDepartmentName());
@@ -36,7 +37,7 @@ public class DepartmentDTOService {
         departmentDao.update(editedDepartment);
     }
 
-    public void create(DepartmentDTO departmentDTO) {
+    public void create(DepartmentDTO departmentDTO) throws CriteriaNotMatchingException, EntityNotFoundException {
         Department department = new Department();
         department.setDepartmentName(departmentDTO.getDepartmentName());
         department.setEmployeesNumber(departmentDTO.getEmployeesNumber());
@@ -44,7 +45,7 @@ public class DepartmentDTOService {
         departmentDao.create(department);
     }
 
-    public boolean delete(Integer id){
+    public boolean delete(Integer id) throws EntityNotFoundException {
         Optional<Department> foundDepartment= Optional.ofNullable(departmentDao.findById(id));
         if(foundDepartment.isPresent()) {
             departmentDao.delete(foundDepartment.get().getId());

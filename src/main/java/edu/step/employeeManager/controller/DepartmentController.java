@@ -1,6 +1,7 @@
 package edu.step.employeeManager.controller;
 
 import edu.step.employeeManager.dto.DepartmentDTO;
+import edu.step.employeeManager.exceptions.CriteriaNotMatchingException;
 import edu.step.employeeManager.exceptions.EntityNotFoundException;
 
 import edu.step.employeeManager.service.DTOservice.DepartmentDTOService;
@@ -14,33 +15,27 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/departments")
 public class DepartmentController {
-
     @Autowired
     private DepartmentDTOService dtoService;
-
-
     @GetMapping
     public List<DepartmentDTO> getAll(){
         return dtoService.getAll();
     }
-
     @PostMapping("/create")
-    public void create(@RequestBody DepartmentDTO departmentDTO){
+    public void create(@RequestBody DepartmentDTO departmentDTO) throws CriteriaNotMatchingException, EntityNotFoundException {
         dtoService.create(departmentDTO);
     }
-
     @PutMapping("/update")
     public ResponseEntity<String> update(@RequestBody DepartmentDTO departmentDTO) {
         try{
             dtoService.update(departmentDTO);
             return ResponseEntity.ok().build();
-        } catch (EntityNotFoundException ex) {
+        } catch (EntityNotFoundException | CriteriaNotMatchingException ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
     }
-
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity delete(@PathVariable("id") Integer id) {
+    public ResponseEntity delete(@PathVariable("id") Integer id) throws EntityNotFoundException {
         boolean result = dtoService.delete(id);
         if(result){
             return ResponseEntity.ok().build();

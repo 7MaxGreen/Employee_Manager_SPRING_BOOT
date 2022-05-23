@@ -193,8 +193,18 @@ public class Employee {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", idnp='" + idnp + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", email='" + address + '\'' +
                 ", salary=" + salary +
+                ", birthdate='" + birthdate + '\'' +
+                ", hireDate='" + hireDate + '\'' +
+                ", dismissDate='" + dismissDate + '\'' +
+                ", department='" + department + '\'' +
+                ", profession='" + profession + '\'' +
                 ", company=" + company +
                 '}';
     }
 }
+

@@ -1,5 +1,7 @@
 package edu.step.employeeManager.service.DAO;
 
+import edu.step.employeeManager.exceptions.CriteriaNotMatchingException;
+import edu.step.employeeManager.exceptions.EntityNotFoundException;
 import edu.step.employeeManager.model.Company;
 import edu.step.employeeManager.model.Department;
 import edu.step.employeeManager.repository.DepartmentRepository;
@@ -15,15 +17,25 @@ public class DepartmentDao {
     @Autowired
     DepartmentRepository departmentRepository;
 
-    public void create(Department department) {
-        departmentRepository.save(department);
+    public void create(Department department) throws EntityNotFoundException, CriteriaNotMatchingException {
+
+        if( department != null) {
+            if( department.getDepartmentName().length() < 2 ) {
+                throw new CriteriaNotMatchingException(department.getId());
+            } else {
+                departmentRepository.save(department);
+            }
+        } else {
+            assert false;
+            throw new EntityNotFoundException(department.getId());
+        }
     }
 
     public List<Department> read() {
         return departmentRepository.findAll();
     }
 
-    public void update(Department updatedDepartment) {
+    public void update(Department updatedDepartment) throws CriteriaNotMatchingException, EntityNotFoundException {
         Optional<Department> foundDepartment = departmentRepository.findById(updatedDepartment.getId());
 
         if(updatedDepartment.getDepartmentName().length() > 3) {
@@ -32,9 +44,11 @@ public class DepartmentDao {
                 dep.setDepartmentName(updatedDepartment.getDepartmentName());
                 dep.setEmployeesNumber(updatedDepartment.getEmployeesNumber());
                 departmentRepository.save(dep);
+            } else {
+                throw new EntityNotFoundException(foundDepartment.get().getId());
             }
         } else {
-            System.out.println("error");
+            throw new CriteriaNotMatchingException(updatedDepartment.getId());
         }
     }
 
@@ -43,13 +57,13 @@ public class DepartmentDao {
         foundDepartment.ifPresent(department -> departmentRepository.delete(department));
     }
 
-    public Department findById(Integer id) {
+    public Department findById(Integer id) throws EntityNotFoundException {
 
         Optional<Department> department = departmentRepository.findById(id);
         if (department.isPresent()) {
             return department.get();
         } else {
-            return null; //// !!!!!
+            throw new EntityNotFoundException(department.get().getId());
         }
     }
 }

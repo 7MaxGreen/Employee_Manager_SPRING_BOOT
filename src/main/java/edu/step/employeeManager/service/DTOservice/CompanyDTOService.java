@@ -1,6 +1,7 @@
 package edu.step.employeeManager.service.DTOservice;
 
 import edu.step.employeeManager.dto.CompanyDTO;
+import edu.step.employeeManager.exceptions.CriteriaNotMatchingException;
 import edu.step.employeeManager.exceptions.EntityNotFoundException;
 import edu.step.employeeManager.model.Company;
 import edu.step.employeeManager.service.DAO.CompanyDao;
@@ -29,7 +30,18 @@ public class CompanyDTOService {
                 .collect(Collectors.toList());
     }
 
-    public void update(CompanyDTO companyDTO) throws EntityNotFoundException {
+    public void create(CompanyDTO companyDTO) throws EntityNotFoundException, CriteriaNotMatchingException {
+
+        Company company = new Company();
+
+        company.setName(companyDTO.getName());
+        company.setFoundationYear(companyDTO.getFoundationYear());
+        company.setEmployeesNumber(companyDTO.getEmployeesNumber());
+
+        companyDao.create(company);
+    }
+
+    public void update(CompanyDTO companyDTO) throws EntityNotFoundException, CriteriaNotMatchingException {
         Company editedCompany = new Company();
 
         editedCompany.setName(companyDTO.getName());
@@ -39,15 +51,9 @@ public class CompanyDTOService {
         companyDao.update(editedCompany);
     }
 
-    public void create(CompanyDTO companyDTO) {
-        Company company = new Company();
-        company.setName(companyDTO.getName());
-        company.setFoundationYear(companyDTO.getFoundationYear());
-        company.setEmployeesNumber(companyDTO.getEmployeesNumber()); // 1
-        companyDao.create(company);
-    }
 
-    public boolean delete(Integer id){
+
+    public boolean delete(Integer id) throws EntityNotFoundException {
         Optional<Company> foundCompany = Optional.ofNullable(companyDao.findById(id));
         if(foundCompany.isPresent()) {
             companyDao.delete(foundCompany.get().getId());
